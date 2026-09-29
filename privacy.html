@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Privacy and proposed Gmail access information for Samara Agentic.">
+    <title>Privacy &amp; access — Samara Agentic</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="wordmark" href="index.html" aria-label="Samara Agentic home">Samara Agentic</a>
+        <nav aria-label="Primary navigation">
+          <a href="privacy.html" aria-current="page">Privacy &amp; access</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="shell policy-layout">
+      <div class="policy-intro">
+        <p class="eyebrow">Privacy &amp; access</p>
+        <h1>Setup is not active.</h1>
+        <p class="lede">This is an information page for a prospective one-person Gmail assistant. It is not a sign-in page and it cannot grant access to Gmail.</p>
+      </div>
+
+      <section aria-labelledby="current-status">
+        <h2 id="current-status">Current status</h2>
+        <p>No Gmail grant or token exists, and no mail has been fetched. Automated monitoring and sending are not enabled or authorized.</p>
+      </section>
+
+      <section aria-labelledby="proposed-permissions">
+        <h2 id="proposed-permissions">Proposed permissions</h2>
+        <p>If the account owner separately authorizes it in the future, the proposed scopes are:</p>
+        <ul>
+          <li><code>https://www.googleapis.com/auth/gmail.readonly</code></li>
+          <li><code>openid</code></li>
+          <li><code>email</code></li>
+          <li><code>https://www.googleapis.com/auth/userinfo.email</code></li>
+        </ul>
+        <p>The read-only Gmail scope can technically view all messages, settings, and attachments in the selected account. It does not permit sending, deleting, labeling, archiving, marking mail read, or otherwise changing mail.</p>
+        <p>Google describes Gmail scopes in its <a href="https://developers.google.com/workspace/gmail/api/auth/scopes">Gmail API scope guide</a>.</p>
+      </section>
+
+      <section aria-labelledby="purpose">
+        <h2 id="purpose">Intended purpose</h2>
+        <p>The intended use is limited to the account owner’s work administration: reading and summarizing specifically authorized messages, extracting action items, and generating reply text for human review. Generating text does not send it.</p>
+      </section>
+
+      <section aria-labelledby="open-questions">
+        <h2 id="open-questions">What has not been finalized</h2>
+        <p>There is no settled public disclosure yet for where mail-related data would be stored, how long it would be retained, how deletion would work, or how backups and logs would be handled.</p>
+        <p>Token storage, unlock, and security details have not been configured or verified. The external AI provider, its applicable data handling and log retention, and which message excerpts could be sent to it are also not finalized.</p>
+        <p>The Google app name and public contact information have not been supplied for publication. These unresolved items need owner and provider review before any mailbox use.</p>
+      </section>
+
+      <section aria-labelledby="revocation">
+        <h2 id="revocation">Future revocation</h2>
+        <p>There is no current grant or local token to revoke or remove. If access is granted in the future, the account owner can revoke the app through <a href="https://support.google.com/accounts/answer/3466521">Google Account third-party connections</a>. If a connector later stores a local token, removing that local token would be a separate step.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <p>Samara Agentic</p>
+        <a href="index.html">Home</a>
+      </div>
+    </footer>
+  </body>
+</html>
