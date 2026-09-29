@@ -76,5 +76,15 @@ assert.match(pages['privacy.html'], /does not state that the trial has run or co
 assert.match(pages['privacy.html'], /bounded detection-only trial has separate approval/i, 'privacy page distinguishes the approved trial from the completed inspected-exchange task');
 assert.doesNotMatch(pages['privacy.html'], /No Gmail grant or token exists, and no mail has been fetched|There is no current grant or local token to revoke or remove/i, 'privacy page rejects obsolete inactive-access claims');
 assert.match(pages['privacy.html'], /general future AI use.*not finalized/i, 'privacy page preserves unresolved future AI handling');
+assert.match(pages['privacy.html'], /Sending and provider-side reply drafts are not authorized/i, 'privacy page preserves the no-send and no-provider-draft boundary');
+assert.match(pages['index.html'], /Sending, mailbox changes, provider-side reply drafts, and unrestricted monitoring are not authorized/i, 'homepage preserves the unauthorized-action boundary');
+assert.match(pages['index.html'], /bounded detection-only trial is approved, but this site does not state that it has run or completed/i, 'homepage does not claim trial execution');
+assert.match(pages['index.html'], /Storage, retention, deletion, backups, logs, and token security have not been finalized/i, 'homepage preserves unresolved data-handling matters');
+assert.match(pages['privacy.html'], /stored, how long it would be retained, how deletion would work, or how backups and logs would be handled/i, 'privacy page preserves unresolved data-handling matters');
+assert.match(pages['privacy.html'], /does not settle token storage, unlock, security, or rotation details/i, 'privacy page preserves unresolved token security');
+for (const [page, html] of Object.entries(pages)) {
+  assert.doesNotMatch(html, /Setup is not active/i, `${page} rejects the obsolete inactive-setup claim`);
+  assert.doesNotMatch(html, /attachments were opened/i, `${page} makes no unsupported attachment claim`);
+}
 
 console.log(`Static smoke checks passed for ${requiredPages.join(', ')}.`);
