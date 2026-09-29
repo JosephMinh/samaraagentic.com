@@ -67,12 +67,13 @@ assert.match(pages['index.html'], /external OpenAI Codex model provider for that
 assert.doesNotMatch(pages['index.html'], /Nothing is connected|No Gmail permission grant or token exists|No Gmail messages, headers, or attachments have been fetched/i, 'homepage rejects obsolete inactive-access claims');
 assert.match(pages['index.html'], /all messages, settings, and attachments/i, 'homepage describes full read-only scope capability');
 assert.match(pages['index.html'], /does not permit sending mail or changing mail/i, 'homepage states the read-only boundary');
-assert.match(pages['index.html'], /provider-side reply drafts, and unrestricted monitoring are not authorized/i, 'homepage preserves unapproved automation boundaries');
+assert.match(pages['index.html'], /monitoring beyond the separately approved bounded trial, or any automatic response, would require separate, explicit authorization/i, 'homepage preserves the bounded-trial and automation boundaries');
 assert.ok(pages['privacy.html'].includes(googleScopeGuide), 'privacy page links to Google scope guidance');
 assert.ok(pages['privacy.html'].includes(googleRevocationHelp), 'privacy page links to Google revocation help');
 assert.match(pages['privacy.html'], /active Gmail read-only and identity authorization, with a local token/i, 'privacy page states the active limited authorization and token');
 assert.match(pages['privacy.html'], /selected excerpts were processed by the assistant’s external OpenAI Codex model provider for that one task/i, 'privacy page states the one approved external AI task');
 assert.match(pages['privacy.html'], /does not state that the trial has run or completed/i, 'privacy page does not claim trial execution');
+assert.match(pages['privacy.html'], /bounded detection-only trial has separate approval/i, 'privacy page distinguishes the approved trial from the completed inspected-exchange task');
 assert.doesNotMatch(pages['privacy.html'], /No Gmail grant or token exists, and no mail has been fetched|There is no current grant or local token to revoke or remove/i, 'privacy page rejects obsolete inactive-access claims');
 assert.match(pages['privacy.html'], /general future AI use.*not finalized/i, 'privacy page preserves unresolved future AI handling');
 
