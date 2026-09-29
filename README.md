@@ -1,0 +1,34 @@
+# Samara Agentic information site
+
+A small, static information and privacy site for a prospective one-person,
+read-only Gmail assistant. It has no build step, runtime dependencies, login,
+or OAuth flow.
+
+## Check and preview locally
+
+Run the deterministic smoke checks with a current Node.js runtime:
+
+```sh
+node tests/smoke.mjs
+```
+
+Preview the files with any static file server. For example:
+
+```sh
+python3 -m http.server 8000
+```
+
+Then visit `http://localhost:8000`. The homepage is `index.html`; the separate
+privacy and access statement is `privacy.html`.
+
+## Hosting
+
+Serve the repository’s HTML and CSS files as static assets; no build output is
+needed. Hosting, domain, DNS, OAuth setup, and deployment configuration are
+deliberately outside this repository and require separate authorization.
+
+## Copy and scope
+
+Read [AGENTS.md](AGENTS.md) before changing public copy. In particular, do not
+replace unresolved privacy or OAuth details with assurances that have not been
+approved.
