@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Privacy and proposed Gmail access information for Samara Agentic.">
+    <meta name="description" content="Privacy and limited Gmail access information for Samara Agentic.">
     <title>Privacy &amp; access — Samara Agentic</title>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -21,18 +21,19 @@
     <main id="main-content" class="shell policy-layout">
       <div class="policy-intro">
         <p class="eyebrow">Privacy &amp; access</p>
-        <h1>Setup is not active.</h1>
-        <p class="lede">This is an information page for a prospective one-person Gmail assistant. It is not a sign-in page and it cannot grant access to Gmail.</p>
+        <h1>Limited read-only access is active.</h1>
+        <p class="lede">This is an information page for a one-person Gmail assistant. It is not a sign-in page and it cannot grant access to Gmail.</p>
       </div>
 
       <section aria-labelledby="current-status">
         <h2 id="current-status">Current status</h2>
-        <p>No Gmail grant or token exists, and no mail has been fetched. Automated monitoring and sending are not enabled or authorized.</p>
+        <p>One personal account has active Gmail read-only and identity authorization, with a local token. One specifically approved exchange was inspected, and selected excerpts were processed by the assistant’s external OpenAI Codex model provider for that one task.</p>
+        <p>A bounded read-only synthetic-subject detection trial ran and is now stopped. This was not authorization for unrestricted monitoring.</p>
       </section>
 
       <section aria-labelledby="proposed-permissions">
-        <h2 id="proposed-permissions">Proposed permissions</h2>
-        <p>If the account owner separately authorizes it in the future, the proposed scopes are:</p>
+        <h2 id="proposed-permissions">Active permissions</h2>
+        <p>The active scopes are:</p>
         <ul>
           <li><code>https://www.googleapis.com/auth/gmail.readonly</code></li>
           <li><code>openid</code></li>
@@ -45,19 +46,19 @@
 
       <section aria-labelledby="purpose">
         <h2 id="purpose">Intended purpose</h2>
-        <p>The intended use is limited to the account owner’s work administration: reading and summarizing specifically authorized messages, extracting action items, and generating reply text for human review. Generating text does not send it.</p>
+        <p>The completed authorized uses are limited to inspecting one specifically approved exchange, processing selected excerpts for that task, and the separate bounded detection-only trial that is now stopped. Sending and provider-side reply drafts are not authorized.</p>
       </section>
 
       <section aria-labelledby="open-questions">
         <h2 id="open-questions">What has not been finalized</h2>
         <p>There is no settled public disclosure yet for where mail-related data would be stored, how long it would be retained, how deletion would work, or how backups and logs would be handled.</p>
-        <p>Token storage, unlock, and security details have not been configured or verified. The external AI provider, its applicable data handling and log retention, and which message excerpts could be sent to it are also not finalized.</p>
-        <p>The Google app name and public contact information have not been supplied for publication. These unresolved items need owner and provider review before any mailbox use.</p>
+        <p>The existence of a local token does not settle token storage, unlock, security, or rotation details. Apart from the one approved task, general future AI use, provider handling, data handling, log retention, and which message excerpts could be sent to a provider are not finalized.</p>
+        <p>Public contact information has not been supplied for publication. These unresolved items need owner and provider review before any further mailbox use.</p>
       </section>
 
       <section aria-labelledby="revocation">
         <h2 id="revocation">Future revocation</h2>
-        <p>There is no current grant or local token to revoke or remove. If access is granted in the future, the account owner can revoke the app through <a href="https://support.google.com/accounts/answer/3466521">Google Account third-party connections</a>. If a connector later stores a local token, removing that local token would be a separate step.</p>
+        <p>The account owner can revoke the active grant through <a href="https://support.google.com/accounts/answer/3466521">Google Account third-party connections</a>. Removing the local token would be a separate step.</p>
       </section>
     </main>
 

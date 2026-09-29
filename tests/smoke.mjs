@@ -42,6 +42,8 @@ function checkNoInteractiveAccess(page, html) {
   assert.doesNotMatch(html, /<(?:form|script|iframe)\b/i, `${page} has no forms, scripts, or embedded frames`);
   assert.doesNotMatch(html, /\b(?:fetch|XMLHttpRequest|navigator\.sendBeacon)\s*\(/i, `${page} has no network client`);
   assert.doesNotMatch(html, /\bmailto:/i, `${page} does not expose a public email address`);
+  assert.doesNotMatch(html, /[\w.+-]+@[\w-]+\.[\w.-]+/, `${page} does not publish an email address`);
+  assert.doesNotMatch(html, /passphrase|encrypt/i, `${page} makes no passphrase or encryption claim`);
 }
 
 const pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
@@ -61,14 +63,32 @@ for (const [page, html] of Object.entries(pages)) {
 }
 
 assert.ok(await exists('styles.css'), 'shared stylesheet exists');
-assert.match(pages['index.html'], /Setup is not active/i, 'homepage says setup is inactive');
-assert.match(pages['index.html'], /No Gmail permission grant or token exists/i, 'homepage says no grant or token exists');
+assert.match(pages['index.html'], /one personal account has active Gmail read-only and identity authorization, with a local token/i, 'homepage states the active limited authorization and token');
+assert.match(pages['index.html'], /one specifically approved exchange was inspected/i, 'homepage states the limited inspected exchange');
+assert.match(pages['index.html'], /external OpenAI Codex model provider for that one task/i, 'homepage limits external AI processing to the approved task');
+assert.match(pages['index.html'], /there is no general AI-processing authorization/i, 'homepage denies general AI-processing authorization');
+assert.doesNotMatch(pages['index.html'], /Nothing is connected|No Gmail permission grant or token exists|No Gmail messages, headers, or attachments have been fetched/i, 'homepage rejects obsolete inactive-access claims');
 assert.match(pages['index.html'], /all messages, settings, and attachments/i, 'homepage describes full read-only scope capability');
 assert.match(pages['index.html'], /does not permit sending mail or changing mail/i, 'homepage states the read-only boundary');
-assert.match(pages['index.html'], /monitoring and sending are neither enabled nor authorized/i, 'homepage states automation status');
+assert.match(pages['index.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'homepage states the completed bounded trial without private details');
+assert.match(pages['index.html'], /monitoring beyond the completed bounded trial, or any automatic response, would require separate, explicit authorization/i, 'homepage preserves the post-trial automation boundary');
 assert.ok(pages['privacy.html'].includes(googleScopeGuide), 'privacy page links to Google scope guidance');
 assert.ok(pages['privacy.html'].includes(googleRevocationHelp), 'privacy page links to Google revocation help');
-assert.match(pages['privacy.html'], /There is no current grant or local token to revoke or remove/i, 'privacy page makes revocation conditional');
-assert.match(pages['privacy.html'], /not finalized/i, 'privacy page exposes unresolved handling decisions');
+assert.match(pages['privacy.html'], /active Gmail read-only and identity authorization, with a local token/i, 'privacy page states the active limited authorization and token');
+assert.match(pages['privacy.html'], /selected excerpts were processed by the assistant’s external OpenAI Codex model provider for that one task/i, 'privacy page states the one approved external AI task');
+assert.match(pages['privacy.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'privacy page states the completed bounded trial without private details');
+assert.match(pages['privacy.html'], /completed authorized uses are limited to inspecting one specifically approved exchange, processing selected excerpts for that task, and the separate bounded detection-only trial/i, 'privacy page distinguishes the completed inspection task and trial');
+assert.doesNotMatch(pages['privacy.html'], /No Gmail grant or token exists, and no mail has been fetched|There is no current grant or local token to revoke or remove/i, 'privacy page rejects obsolete inactive-access claims');
+assert.match(pages['privacy.html'], /general future AI use.*not finalized/i, 'privacy page preserves unresolved future AI handling');
+assert.match(pages['privacy.html'], /Sending and provider-side reply drafts are not authorized/i, 'privacy page preserves the no-send and no-provider-draft boundary');
+assert.match(pages['index.html'], /Sending, mailbox changes, provider-side reply drafts, and unrestricted monitoring are not authorized/i, 'homepage preserves the unauthorized-action boundary');
+assert.match(pages['index.html'], /Storage, retention, deletion, backups, logs, and token security have not been finalized/i, 'homepage preserves unresolved data-handling matters');
+assert.match(pages['privacy.html'], /stored, how long it would be retained, how deletion would work, or how backups and logs would be handled/i, 'privacy page preserves unresolved data-handling matters');
+assert.match(pages['privacy.html'], /does not settle token storage, unlock, security, or rotation details/i, 'privacy page preserves unresolved token security');
+for (const [page, html] of Object.entries(pages)) {
+  assert.doesNotMatch(html, /Setup is not active/i, `${page} rejects the obsolete inactive-setup claim`);
+  assert.doesNotMatch(html, /attachments were opened/i, `${page} makes no unsupported attachment claim`);
+  assert.doesNotMatch(html, /may read and summarize|extract action items/i, `${page} makes no standing summarization claim`);
+}
 
 console.log(`Static smoke checks passed for ${requiredPages.join(', ')}.`);
