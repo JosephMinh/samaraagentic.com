@@ -85,6 +85,7 @@ assert.match(pages['privacy.html'], /does not settle token storage, unlock, secu
 for (const [page, html] of Object.entries(pages)) {
   assert.doesNotMatch(html, /Setup is not active/i, `${page} rejects the obsolete inactive-setup claim`);
   assert.doesNotMatch(html, /attachments were opened/i, `${page} makes no unsupported attachment claim`);
+  assert.doesNotMatch(html, /may read and summarize|extract action items/i, `${page} makes no standing summarization claim`);
 }
 
 console.log(`Static smoke checks passed for ${requiredPages.join(', ')}.`);
