@@ -46,7 +46,13 @@ function checkNoInteractiveAccess(page, html) {
   assert.doesNotMatch(html, /passphrase|encrypt/i, `${page} makes no passphrase or encryption claim`);
 }
 
-const pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
+let pages;
+try {
+  pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
+} catch (error) {
+  throw new Error('Unable to load the static-site artifacts.', { cause: error });
+}
+const readme = await readFile(path.join(root, 'README.md'), 'utf8');
 
 for (const [page, html] of Object.entries(pages)) {
   checkAccessibilityBaseline(page, html);
@@ -63,6 +69,8 @@ for (const [page, html] of Object.entries(pages)) {
 }
 
 assert.ok(await exists('styles.css'), 'shared stylesheet exists');
+assert.match(readme, /limited technical Gmail read and send capability/i, 'README does not characterize the active grant as read-only only');
+assert.match(readme, /does not\s+authorize actual or production sends, and no email has been sent; sending\s+remains limited to separately authorized tasks/i, 'README distinguishes technical capability from task-specific send authority');
 assert.match(pages['index.html'], /Limited Gmail access is active/i, 'homepage does not characterize the active grant as read-only only');
 assert.match(pages['index.html'], /one personal account has active Gmail read-only, Gmail send, and identity authorization, with a local token/i, 'homepage states the active five-scope authorization and token');
 assert.match(pages['index.html'], /separately task-authorized selected-message inspections occurred/i, 'homepage states the bounded selected-message inspections');
