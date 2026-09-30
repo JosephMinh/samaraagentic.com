@@ -5,10 +5,11 @@ with limited technical Gmail read and send capability. That capability does not
 authorize actual or production sends; sending remains limited to separately
 authorized tasks. Self-only testing was attempted. The first bounded self-only
 test stopped before account binding and before any send; zero test messages and
-zero replies were sent. One synthetic self-addressed test message is visible in
-Gmail; the test then stopped. No automated replies or additional seed messages
-were sent. Inbox delivery, threading, and latency remain unverified. It has no
-build step, runtime dependencies, login, or OAuth flow.
+zero replies were sent. In a second bounded self-only attempt, one synthetic
+self-addressed test message is visible in Gmail; that test then stopped. No
+automated replies or additional seed messages were sent. Inbox delivery,
+threading, and latency remain unverified. It has no build step, runtime
+dependencies, login, or OAuth flow.
 
 ## Check and preview locally
 

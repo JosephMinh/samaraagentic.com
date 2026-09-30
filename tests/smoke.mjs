@@ -46,15 +46,8 @@ function checkNoInteractiveAccess(page, html) {
   assert.doesNotMatch(html, /passphrase|encrypt/i, `${page} makes no passphrase or encryption claim`);
 }
 
-let pages;
-let readme;
-
-try {
-  pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
-  readme = await readFile(path.join(root, 'README.md'), 'utf8');
-} catch (error) {
-  assert.fail(`Static-site artifacts cannot be read: ${error.message}`);
-}
+const pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
+const readme = await readFile(path.join(root, 'README.md'), 'utf8');
 
 for (const [page, html] of Object.entries(pages)) {
   checkAccessibilityBaseline(page, html);
@@ -83,8 +76,7 @@ assert.match(pages['index.html'], /active Google permissions are exactly.*gmail\
 assert.match(pages['index.html'], /Gmail read-only scope can technically view all messages, settings, and attachments in the account/i, 'homepage describes account-wide read capability');
 assert.match(pages['index.html'], /Gmail send scope can technically send email as the account/i, 'homepage describes account-wide technical send capability');
 assert.match(pages['index.html'], /does not include Gmail modify, compose, or full-mail scopes/i, 'homepage excludes ungranted Gmail scopes');
-assert.match(pages['index.html'], /first bounded self-only test stopped before account binding and before any send; zero test messages and zero replies were sent/i, 'homepage preserves the first test’s zero-send outcome');
-assert.match(pages['index.html'], /Self-only testing was attempted\. The first bounded self-only test stopped before account binding and before any send; zero test messages and zero replies were sent\. One synthetic self-addressed test message is visible in Gmail; the test then stopped\. No automated replies or additional seed messages were sent\. Inbox delivery, threading, and latency remain unverified/i, 'homepage states the bounded self-only test outcomes');
+assert.match(pages['index.html'], /Self-only testing was attempted\. The first bounded self-only test stopped before account binding and before any send; zero test messages and zero replies were sent\. In a second bounded self-only attempt, one synthetic self-addressed test message is visible in Gmail; that test then stopped\. No automated replies or additional seed messages were sent\. Inbox delivery, threading, and latency remain unverified/i, 'homepage states the bounded self-only test outcomes');
 assert.match(pages['index.html'], /Real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, provider-side reply drafts, and unrestricted monitoring remain unauthorized/i, 'homepage preserves the production and third-party sending boundary');
 assert.match(pages['index.html'], /No current monitoring is enabled/i, 'homepage states that monitoring is not active');
 assert.match(pages['index.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'homepage states the completed bounded trial without private details');
@@ -96,8 +88,7 @@ assert.match(pages['privacy.html'], /separately task-authorized selected-message
 assert.match(pages['privacy.html'], /selected headers and relevant text.*external OpenAI Codex model provider for those limited tasks/i, 'privacy page limits external AI processing to the selected inspection tasks');
 assert.match(pages['privacy.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'privacy page states the completed bounded trial without private details');
 assert.match(pages['privacy.html'], /No current monitoring is enabled/i, 'privacy page states that monitoring is not active');
-assert.match(pages['privacy.html'], /first bounded self-only test stopped before account binding and before any send; zero test messages and zero replies were sent/i, 'privacy page preserves the first test’s zero-send outcome');
-assert.match(pages['privacy.html'], /Self-only testing was attempted\. The first bounded self-only test stopped before account binding and before any send; zero test messages and zero replies were sent\. One synthetic self-addressed test message is visible in Gmail; the test then stopped\. No automated replies or additional seed messages were sent\. Inbox delivery, threading, and latency remain unverified/i, 'privacy page states the bounded self-only test outcomes');
+assert.match(pages['privacy.html'], /Self-only testing was attempted\. The first bounded self-only test stopped before account binding and before any send; zero test messages and zero replies were sent\. In a second bounded self-only attempt, one synthetic self-addressed test message is visible in Gmail; that test then stopped\. No automated replies or additional seed messages were sent\. Inbox delivery, threading, and latency remain unverified/i, 'privacy page states the bounded self-only test outcomes');
 assert.match(pages['privacy.html'], /gmail\.readonly.*gmail\.send.*openid.*email.*userinfo\.email/is, 'privacy page states the exact five active scopes');
 assert.match(pages['privacy.html'], /Gmail read-only scope can technically view all messages, settings, and attachments in the account/i, 'privacy page describes account-wide read capability');
 assert.match(pages['privacy.html'], /Gmail send scope can technically send email as the account/i, 'privacy page describes account-wide technical send capability');
@@ -110,8 +101,7 @@ assert.match(pages['privacy.html'], /Real-offer, Crous, third-party, or ongoing 
 assert.match(pages['index.html'], /Storage, retention, deletion, backups, logs, and token security have not been finalized/i, 'homepage preserves unresolved data-handling matters');
 assert.match(pages['privacy.html'], /stored, how long it would be retained, how deletion would work, or how backups and logs would be handled/i, 'privacy page preserves unresolved data-handling matters');
 assert.match(pages['privacy.html'], /does not settle token storage, unlock, security, or rotation details/i, 'privacy page preserves unresolved token security');
-assert.match(readme, /first bounded self-only\s+test stopped before account\s+binding and before any send; zero test messages and\s+zero replies were sent/i, 'README preserves the first test’s zero-send outcome');
-assert.match(readme, /Self-only testing was attempted\. The first bounded self-only\s+test stopped before account\s+binding and before any send; zero test messages and\s+zero replies were sent\. One synthetic self-addressed test message is visible in\s+Gmail; the test then stopped\. No automated replies or additional seed messages\s+were sent\. Inbox delivery, threading, and latency remain unverified/i, 'README states the bounded self-only test outcomes');
+assert.match(readme, /Self-only testing was attempted\. The first bounded self-only\s+test stopped before account\s+binding and before any send; zero test messages and\s+zero replies were sent\. In a second bounded self-only attempt, one synthetic\s+self-addressed test message is visible in Gmail; that test then stopped\. No\s+automated replies or additional seed messages were sent\. Inbox delivery,\s+threading, and latency remain unverified/i, 'README states the bounded self-only test outcomes');
 for (const [page, html] of Object.entries(pages)) {
   assert.doesNotMatch(html, /Setup is not active/i, `${page} rejects the obsolete inactive-setup claim`);
   assert.doesNotMatch(html, /attachments were opened/i, `${page} makes no unsupported attachment claim`);
