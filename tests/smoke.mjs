@@ -46,7 +46,12 @@ function checkNoInteractiveAccess(page, html) {
   assert.doesNotMatch(html, /passphrase|encrypt/i, `${page} makes no passphrase or encryption claim`);
 }
 
-const pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
+let pages;
+try {
+  pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
+} catch (error) {
+  throw new Error('Unable to load the static-site artifacts.', { cause: error });
+}
 
 for (const [page, html] of Object.entries(pages)) {
   checkAccessibilityBaseline(page, html);
@@ -73,7 +78,9 @@ assert.match(pages['index.html'], /active Google permissions are exactly.*gmail\
 assert.match(pages['index.html'], /Gmail read-only scope can technically view all messages, settings, and attachments in the account/i, 'homepage describes account-wide read capability');
 assert.match(pages['index.html'], /Gmail send scope can technically send email as the account/i, 'homepage describes account-wide technical send capability');
 assert.match(pages['index.html'], /does not include Gmail modify, compose, or full-mail scopes/i, 'homepage excludes ungranted Gmail scopes');
-assert.match(pages['index.html'], /No message has been sent; actual or automatic sending, mailbox mutation, provider-side reply drafts, and unrestricted monitoring are not authorized/i, 'homepage distinguishes technical send capability from authority');
+assert.match(pages['index.html'], /No email has been sent, and no current monitoring is enabled/i, 'homepage states the current zero-send and no-monitoring status');
+assert.match(pages['index.html'], /self-only synthetic test may run only after engineering review, with at most three synthetic seeds, two self-replies, and 15 minutes; it has not started/i, 'homepage limits the authorized-but-not-started self-only test');
+assert.match(pages['index.html'], /Real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, provider-side reply drafts, and unrestricted monitoring remain unauthorized/i, 'homepage preserves the production and third-party sending boundary');
 assert.match(pages['index.html'], /No current monitoring is enabled/i, 'homepage states that monitoring is not active');
 assert.match(pages['index.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'homepage states the completed bounded trial without private details');
 assert.ok(pages['privacy.html'].includes(googleScopeGuide), 'privacy page links to Google scope guidance');
@@ -84,6 +91,7 @@ assert.match(pages['privacy.html'], /separately task-authorized selected-message
 assert.match(pages['privacy.html'], /selected headers and relevant text.*external OpenAI Codex model provider for those limited tasks/i, 'privacy page limits external AI processing to the selected inspection tasks');
 assert.match(pages['privacy.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'privacy page states the completed bounded trial without private details');
 assert.match(pages['privacy.html'], /No current monitoring is enabled/i, 'privacy page states that monitoring is not active');
+assert.match(pages['privacy.html'], /self-only synthetic test may run only after engineering review, with at most three synthetic seeds, two self-replies, and 15 minutes; it has not started/i, 'privacy page limits the authorized-but-not-started self-only test');
 assert.match(pages['privacy.html'], /gmail\.readonly.*gmail\.send.*openid.*email.*userinfo\.email/is, 'privacy page states the exact five active scopes');
 assert.match(pages['privacy.html'], /Gmail read-only scope can technically view all messages, settings, and attachments in the account/i, 'privacy page describes account-wide read capability');
 assert.match(pages['privacy.html'], /Gmail send scope can technically send email as the account/i, 'privacy page describes account-wide technical send capability');
@@ -91,7 +99,8 @@ assert.match(pages['privacy.html'], /does not include Gmail modify, compose, or 
 assert.match(pages['privacy.html'], /completed authorized uses are limited to separately task-authorized selected-message inspections, processing selected headers and relevant text through the external OpenAI Codex model provider for those limited tasks, and the separate bounded detection-only trial/i, 'privacy page distinguishes the completed inspection tasks and trial');
 assert.doesNotMatch(pages['privacy.html'], /No Gmail grant or token exists, and no mail has been fetched|There is no current grant or local token to revoke or remove/i, 'privacy page rejects obsolete inactive-access claims');
 assert.match(pages['privacy.html'], /general future AI use.*not finalized/i, 'privacy page preserves unresolved future AI handling');
-assert.match(pages['privacy.html'], /Gmail send capability is not authority: no message has been sent, and actual or automatic sending, mailbox mutation, and provider-side reply drafts are not authorized/i, 'privacy page preserves the no-send-authority and no-provider-draft boundary');
+assert.match(pages['privacy.html'], /Gmail send capability is not blanket authority: no email has been sent/i, 'privacy page distinguishes technical send capability from authority');
+assert.match(pages['privacy.html'], /Real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, and provider-side reply drafts remain unauthorized/i, 'privacy page preserves the production, third-party, and no-provider-draft boundary');
 assert.match(pages['index.html'], /Storage, retention, deletion, backups, logs, and token security have not been finalized/i, 'homepage preserves unresolved data-handling matters');
 assert.match(pages['privacy.html'], /stored, how long it would be retained, how deletion would work, or how backups and logs would be handled/i, 'privacy page preserves unresolved data-handling matters');
 assert.match(pages['privacy.html'], /does not settle token storage, unlock, security, or rotation details/i, 'privacy page preserves unresolved token security');
