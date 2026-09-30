@@ -46,7 +46,14 @@ function checkNoInteractiveAccess(page, html) {
   assert.doesNotMatch(html, /passphrase|encrypt/i, `${page} makes no passphrase or encryption claim`);
 }
 
-const pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
+const pageResults = await Promise.allSettled(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')]));
+for (const [index, result] of pageResults.entries()) {
+  if (result.status === 'rejected') {
+    const detail = result.reason instanceof Error ? result.reason.message : String(result.reason);
+    assert.fail(`Static-site artifact cannot be read: ${requiredPages[index]}: ${detail}`);
+  }
+}
+const pages = Object.fromEntries(pageResults.map((result) => result.value));
 const readme = await readFile(path.join(root, 'README.md'), 'utf8');
 
 for (const [page, html] of Object.entries(pages)) {
