@@ -1,7 +1,9 @@
 # Samara Agentic information site
 
-A small, static information and privacy site for a one-person, read-only Gmail
-assistant with limited active authorization. It has no build step, runtime
+A small, static information and privacy site for a one-person Gmail assistant
+with limited technical Gmail read and send capability. That capability does not
+authorize actual or production sends, and no email has been sent; sending
+remains limited to separately authorized tasks. It has no build step, runtime
 dependencies, login, or OAuth flow.
 
 ## Check and preview locally
