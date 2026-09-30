@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Information about limited, read-only Gmail access for one person's work administration.">
-    <title>Samara Agentic — read-only Gmail assistant</title>
+    <meta name="description" content="Information about limited Gmail access for one person's work administration.">
+    <title>Samara Agentic — limited Gmail assistant</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -20,18 +20,18 @@
 
     <main id="main-content">
       <section class="intro shell" aria-labelledby="page-title">
-        <p class="eyebrow">Status: limited read-only access is active</p>
-        <h1 id="page-title">A read-only Gmail assistant for one person’s work administration.</h1>
-        <p class="lede">Access is limited to the read-only status described below; there is no general AI-processing authorization. This website is informational only and does not grant Gmail access.</p>
+        <p class="eyebrow">Status: limited Gmail access is active</p>
+        <h1 id="page-title">A limited Gmail assistant for one person’s work administration.</h1>
+        <p class="lede">Access is limited to the status described below; there is no general AI-processing authorization. This website is informational only and does not grant Gmail access.</p>
       </section>
 
       <section class="shell section" aria-labelledby="today-title">
         <div class="section-heading">
           <p class="eyebrow">Today</p>
-          <h2 id="today-title">Limited read-only access is active.</h2>
+          <h2 id="today-title">Limited Gmail access is active.</h2>
         </div>
         <ul class="plain-list">
-          <li>One personal account has active Gmail read-only and identity authorization, with a local token.</li>
+          <li>One personal account has active Gmail read-only, Gmail send, and identity authorization, with a local token.</li>
           <li>Separately task-authorized selected-message inspections occurred; selected headers and relevant text were processed by the assistant’s external OpenAI Codex model provider for those limited tasks.</li>
           <li>A bounded read-only synthetic-subject detection trial ran and is now stopped.</li>
         </ul>
@@ -40,11 +40,11 @@
       <section class="shell section scope-panel" aria-labelledby="scope-title">
         <div class="section-heading">
           <p class="eyebrow">Active access boundary</p>
-          <h2 id="scope-title">Access is read-only.</h2>
+          <h2 id="scope-title">Access is limited.</h2>
         </div>
-        <p>The active Google permissions are <code>https://www.googleapis.com/auth/gmail.readonly</code>, <code>openid</code>, <code>email</code>, and <code>https://www.googleapis.com/auth/userinfo.email</code>.</p>
-        <p><strong>Important:</strong> the Gmail read-only scope can technically view all messages, settings, and attachments in the selected account. It is not limited to a chosen sender or a selected subset of messages.</p>
-        <p>That scope does not permit sending mail or changing mail. Sending, mailbox changes, provider-side reply drafts, and unrestricted monitoring are not authorized. Monitoring beyond the completed bounded trial, or any automatic response, would require separate, explicit authorization and appropriate permissions.</p>
+        <p>The active Google permissions are exactly <code>https://www.googleapis.com/auth/gmail.readonly</code>, <code>https://www.googleapis.com/auth/gmail.send</code>, <code>openid</code>, <code>email</code>, and <code>https://www.googleapis.com/auth/userinfo.email</code>.</p>
+        <p><strong>Important:</strong> the Gmail read-only scope can technically view all messages, settings, and attachments in the account. The Gmail send scope can technically send email as the account. These capabilities are not limited to a chosen sender or a selected subset of messages.</p>
+        <p>The stored authorization does not include Gmail modify, compose, or full-mail scopes. No message has been sent; actual or automatic sending, mailbox mutation, provider-side reply drafts, and unrestricted monitoring are not authorized. No current monitoring is enabled. The bounded read-only synthetic-subject detection trial is stopped.</p>
       </section>
 
       <section class="shell section" aria-labelledby="details-title">

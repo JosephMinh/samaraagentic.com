@@ -21,32 +21,33 @@
     <main id="main-content" class="shell policy-layout">
       <div class="policy-intro">
         <p class="eyebrow">Privacy &amp; access</p>
-        <h1>Limited read-only access is active.</h1>
+        <h1>Limited Gmail access is active.</h1>
         <p class="lede">This is an information page for a one-person Gmail assistant. It is not a sign-in page and it cannot grant access to Gmail.</p>
       </div>
 
       <section aria-labelledby="current-status">
         <h2 id="current-status">Current status</h2>
-        <p>One personal account has active Gmail read-only and identity authorization, with a local token. Separately task-authorized selected-message inspections occurred, and selected headers and relevant text were processed by the assistant’s external OpenAI Codex model provider for those limited tasks.</p>
-        <p>A bounded read-only synthetic-subject detection trial ran and is now stopped. This was not authorization for unrestricted monitoring.</p>
+        <p>One personal account has active Gmail read-only, Gmail send, and identity authorization, with a local token. Separately task-authorized selected-message inspections occurred, and selected headers and relevant text were processed by the assistant’s external OpenAI Codex model provider for those limited tasks.</p>
+        <p>A bounded read-only synthetic-subject detection trial ran and is now stopped. No current monitoring is enabled, and this was not authorization for unrestricted monitoring.</p>
       </section>
 
       <section aria-labelledby="proposed-permissions">
         <h2 id="proposed-permissions">Active permissions</h2>
-        <p>The active scopes are:</p>
+        <p>The active scopes are exactly:</p>
         <ul>
           <li><code>https://www.googleapis.com/auth/gmail.readonly</code></li>
+          <li><code>https://www.googleapis.com/auth/gmail.send</code></li>
           <li><code>openid</code></li>
           <li><code>email</code></li>
           <li><code>https://www.googleapis.com/auth/userinfo.email</code></li>
         </ul>
-        <p>The read-only Gmail scope can technically view all messages, settings, and attachments in the selected account. It does not permit sending, deleting, labeling, archiving, marking mail read, or otherwise changing mail.</p>
+        <p>The Gmail read-only scope can technically view all messages, settings, and attachments in the account. The Gmail send scope can technically send email as the account. The stored authorization does not include Gmail modify, compose, or full-mail scopes.</p>
         <p>Google describes Gmail scopes in its <a href="https://developers.google.com/workspace/gmail/api/auth/scopes">Gmail API scope guide</a>.</p>
       </section>
 
       <section aria-labelledby="purpose">
         <h2 id="purpose">Intended purpose</h2>
-        <p>The completed authorized uses are limited to separately task-authorized selected-message inspections, processing selected headers and relevant text through the external OpenAI Codex model provider for those limited tasks, and the separate bounded detection-only trial that is now stopped. Sending and provider-side reply drafts are not authorized.</p>
+        <p>The completed authorized uses are limited to separately task-authorized selected-message inspections, processing selected headers and relevant text through the external OpenAI Codex model provider for those limited tasks, and the separate bounded detection-only trial that is now stopped. The Gmail send capability is not authority: no message has been sent, and actual or automatic sending, mailbox mutation, and provider-side reply drafts are not authorized.</p>
       </section>
 
       <section aria-labelledby="open-questions">
