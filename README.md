@@ -2,9 +2,15 @@
 
 A small, static information and privacy site for a one-person Gmail assistant
 with limited technical Gmail read and send capability. That capability does not
-authorize actual or production sends, and no email has been sent; sending
-remains limited to separately authorized tasks. It has no build step, runtime
-dependencies, login, or OAuth flow.
+authorize actual or production sends; sending remains limited to separately
+authorized tasks. Self-only testing was attempted. The first bounded self-only
+test stopped before account binding and before any send; zero test messages and
+zero replies were sent. In a second bounded self-only attempt, one synthetic
+self-addressed test message is visible in Gmail; that test then stopped. No
+automated replies or additional seed messages were sent. Inbox delivery,
+headers, route, labels, threading, classification, decoy outcome, and latency
+remain unverified. It has no build step, runtime dependencies, login, or OAuth
+flow.
 
 ## Check and preview locally
 
