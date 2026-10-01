@@ -33,7 +33,8 @@
         <ul class="plain-list">
           <li>One personal account has active Gmail read-only and identity authorization, with a local token.</li>
           <li>One specifically approved exchange was inspected; selected excerpts were processed by the assistant’s external OpenAI Codex model provider for that one task.</li>
-          <li>A bounded read-only synthetic-subject detection trial ran and is now stopped.</li>
+          <li>Historical attempt 1 stopped before identity binding with zero sends. Historical attempt 2 sent one synthetic seed, later reconciled as sent and inbox mail with exact-self routing, and had zero replies.</li>
+          <li>On October 1, 2026, one fresh bounded self-only functional test sent and inspected three synthetic seeds. Two self-only replies were accepted, each on its corresponding seed thread; an automatic-response decoy received no reply. The test ended at its reply cap with no active dispatch or retry.</li>
         </ul>
       </section>
 
@@ -44,7 +45,7 @@
         </div>
         <p>The active Google permissions are <code>https://www.googleapis.com/auth/gmail.readonly</code>, <code>openid</code>, <code>email</code>, and <code>https://www.googleapis.com/auth/userinfo.email</code>.</p>
         <p><strong>Important:</strong> the Gmail read-only scope can technically view all messages, settings, and attachments in the selected account. It is not limited to a chosen sender or a selected subset of messages.</p>
-        <p>That scope does not permit sending mail or changing mail. Sending, mailbox changes, provider-side reply drafts, and unrestricted monitoring are not authorized. Monitoring beyond the completed bounded trial, or any automatic response, would require separate, explicit authorization and appropriate permissions.</p>
+        <p>That scope does not permit sending mail or changing mail. No ongoing sending, mailbox changes, provider-side reply drafts, or unrestricted monitoring is authorized. Real-recipient, Crous, and third-party sends remain unauthorized; any further monitoring, response, or send would require separate, explicit authorization and appropriate permissions.</p>
       </section>
 
       <section class="shell section" aria-labelledby="details-title">
@@ -52,7 +53,7 @@
           <p class="eyebrow">Unresolved details</p>
           <h2 id="details-title">Important details still need decisions.</h2>
         </div>
-        <p>Storage, retention, deletion, backups, logs, and token security have not been finalized. Apart from the one approved task, general future AI use, provider handling, and which message excerpts could be shared remain unresolved. A public contact has not been supplied for this site.</p>
+        <p>This is bounded functional self-only proof only. It does not establish general or real Crous coverage, independent post-send inbox delivery for every new message, a complete MIME audit, or guaranteed receive-to-reply latency; the recorded local elapsed time is not Gmail latency. Storage, retention, deletion, backups, logs, and token security have not been finalized. Apart from the one approved task, general future AI use, provider handling, and which message excerpts could be shared remain unresolved. A public contact has not been supplied for this site.</p>
         <a class="text-link" href="privacy.html">Read the privacy and access statement <span aria-hidden="true">→</span></a>
       </section>
     </main>
