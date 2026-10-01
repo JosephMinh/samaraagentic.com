@@ -1,8 +1,21 @@
 # Samara Agentic information site
 
-A small, static information and privacy site for a one-person, read-only Gmail
-assistant with limited active authorization. It has no build step, runtime
-dependencies, login, or OAuth flow.
+A small, static information and privacy site for a one-person Gmail assistant
+with limited technical Gmail read and send capability. That capability does not
+authorize actual or production sends; sending remains limited to separately
+authorized tasks. Historical attempt 1 stopped before account binding and
+before any send; zero test messages and zero replies were sent. Historical
+attempt 2 sent one synthetic seed, later reconciled as sent and inbox mail with
+exact-self routing and selected-header predicates, and had zero replies. On
+October 1, 2026, one fresh bounded self-only functional test sent and inspected
+three synthetic seeds. Two self-only replies were accepted, each on its
+corresponding seed thread; an automatic-response decoy received no reply. The
+test ended at its reply cap with no active dispatch or retry. This is bounded
+functional self-only proof only, not general or real Crous coverage. Independent
+post-send inbox delivery for every new message, a complete MIME audit, an
+independently expected original thread, and guaranteed receive-to-reply latency
+remain unverified; recorded local elapsed time is not Gmail latency. It has no
+build step, runtime dependencies, login, or OAuth flow.
 
 ## Check and preview locally
 

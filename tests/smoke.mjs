@@ -46,7 +46,15 @@ function checkNoInteractiveAccess(page, html) {
   assert.doesNotMatch(html, /passphrase|encrypt/i, `${page} makes no passphrase or encryption claim`);
 }
 
-const pages = Object.fromEntries(await Promise.all(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')])));
+const pageResults = await Promise.allSettled(requiredPages.map(async (page) => [page, await readFile(path.join(root, page), 'utf8')]));
+for (const [index, result] of pageResults.entries()) {
+  if (result.status === 'rejected') {
+    const detail = result.reason instanceof Error ? result.reason.message : String(result.reason);
+    assert.fail(`Static-site artifact cannot be read: ${requiredPages[index]}: ${detail}`);
+  }
+}
+const pages = Object.fromEntries(pageResults.map((result) => result.value));
+const readme = await readFile(path.join(root, 'README.md'), 'utf8');
 
 for (const [page, html] of Object.entries(pages)) {
   checkAccessibilityBaseline(page, html);
@@ -63,38 +71,60 @@ for (const [page, html] of Object.entries(pages)) {
 }
 
 assert.ok(await exists('styles.css'), 'shared stylesheet exists');
-assert.match(pages['index.html'], /one personal account has active Gmail read-only and identity authorization, with a local token/i, 'homepage states the active limited authorization and token');
-assert.match(pages['index.html'], /one specifically approved exchange was inspected/i, 'homepage states the limited inspected exchange');
-assert.match(pages['index.html'], /external OpenAI Codex model provider for that one task/i, 'homepage limits external AI processing to the approved task');
+assert.match(readme, /limited technical Gmail read and send capability/i, 'README does not characterize the active grant as read-only only');
+assert.match(readme, /does not\s+authorize actual or production sends;\s+sending\s+remains limited to separately\s+authorized tasks/i, 'README distinguishes technical capability from task-specific send authority');
+assert.match(pages['index.html'], /Limited Gmail access is active/i, 'homepage does not characterize the active grant as read-only only');
+assert.match(pages['index.html'], /one personal account has active Gmail read-only, Gmail send, and identity authorization, with a local token/i, 'homepage states the active five-scope authorization and token');
+assert.match(pages['index.html'], /separately task-authorized selected-message inspections occurred/i, 'homepage states the bounded selected-message inspections');
+assert.match(pages['index.html'], /selected headers and relevant text.*external OpenAI Codex model provider for those limited tasks/i, 'homepage limits external AI processing to the selected inspection tasks');
 assert.match(pages['index.html'], /there is no general AI-processing authorization/i, 'homepage denies general AI-processing authorization');
 assert.doesNotMatch(pages['index.html'], /Nothing is connected|No Gmail permission grant or token exists|No Gmail messages, headers, or attachments have been fetched/i, 'homepage rejects obsolete inactive-access claims');
-assert.match(pages['index.html'], /all messages, settings, and attachments/i, 'homepage describes full read-only scope capability');
-assert.match(pages['index.html'], /does not permit sending mail or changing mail/i, 'homepage states the read-only boundary');
+assert.match(pages['index.html'], /active Google permissions are exactly.*gmail\.readonly.*gmail\.send.*openid.*email.*userinfo\.email/i, 'homepage states the exact five active scopes');
+assert.match(pages['index.html'], /Gmail read-only scope can technically view all messages, settings, and attachments in the account/i, 'homepage describes account-wide read capability');
+assert.match(pages['index.html'], /Gmail send scope can technically send email as the account/i, 'homepage describes account-wide technical send capability');
+assert.match(pages['index.html'], /does not include Gmail modify, compose, or full-mail scopes/i, 'homepage excludes ungranted Gmail scopes');
 assert.match(pages['index.html'], /Historical attempt 1 stopped before identity binding with zero sends/i, 'homepage preserves the first historical failure');
-assert.match(pages['index.html'], /Historical attempt 2 sent one synthetic seed.*exact-self routing.*zero replies/i, 'homepage preserves the reconciled second historical attempt');
+assert.match(pages['index.html'], /Historical attempt 2 sent one synthetic seed.*sent and inbox mail.*exact-self routing and selected-header predicates.*zero replies/i, 'homepage preserves the reconciled second historical attempt');
 assert.match(pages['index.html'], /one fresh bounded self-only functional test sent and inspected three synthetic seeds/i, 'homepage states the bounded third test without private details');
 assert.match(pages['index.html'], /Two self-only replies were accepted, each on its corresponding seed thread; an automatic-response decoy received no reply/i, 'homepage states the bounded third-test outcome');
-assert.match(pages['index.html'], /Real-recipient, Crous, and third-party sends remain unauthorized/i, 'homepage preserves the real-recipient boundary');
+assert.match(pages['index.html'], /dated self-only tests do not authorize real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, provider-side reply drafts, or unrestricted monitoring/i, 'homepage preserves the production and third-party sending boundary');
+assert.match(pages['index.html'], /No current monitoring is enabled/i, 'homepage states that monitoring is not active');
+assert.match(pages['index.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'homepage states the completed bounded trial without private details');
 assert.ok(pages['privacy.html'].includes(googleScopeGuide), 'privacy page links to Google scope guidance');
 assert.ok(pages['privacy.html'].includes(googleRevocationHelp), 'privacy page links to Google revocation help');
-assert.match(pages['privacy.html'], /active Gmail read-only and identity authorization, with a local token/i, 'privacy page states the active limited authorization and token');
-assert.match(pages['privacy.html'], /selected excerpts were processed by the assistant’s external OpenAI Codex model provider for that one task/i, 'privacy page states the one approved external AI task');
+assert.match(pages['privacy.html'], /Limited Gmail access is active/i, 'privacy page does not characterize the active grant as read-only only');
+assert.match(pages['privacy.html'], /active Gmail read-only, Gmail send, and identity authorization, with a local token/i, 'privacy page states the active five-scope authorization and token');
+assert.match(pages['privacy.html'], /separately task-authorized selected-message inspections occurred/i, 'privacy page states the bounded selected-message inspections');
+assert.match(pages['privacy.html'], /selected headers and relevant text.*external OpenAI Codex model provider for those limited tasks/i, 'privacy page limits external AI processing to the selected inspection tasks');
+assert.match(pages['privacy.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'privacy page states the completed bounded trial without private details');
+assert.match(pages['privacy.html'], /No current monitoring is enabled/i, 'privacy page states that monitoring is not active');
 assert.match(pages['privacy.html'], /Historical attempt 1 stopped before identity binding with zero sends/i, 'privacy page preserves the first historical failure');
-assert.match(pages['privacy.html'], /Historical attempt 2 sent one synthetic seed.*exact-self routing.*zero replies/i, 'privacy page preserves the reconciled second historical attempt');
+assert.match(pages['privacy.html'], /Historical attempt 2 sent one synthetic seed.*sent and inbox mail.*exact-self routing and selected-header predicates.*zero replies/i, 'privacy page preserves the reconciled second historical attempt');
 assert.match(pages['privacy.html'], /one fresh bounded self-only functional test sent and inspected three synthetic seeds/i, 'privacy page states the bounded third test without private details');
 assert.match(pages['privacy.html'], /Two self-only replies were accepted, each on its corresponding seed thread; an automatic-response decoy received no reply/i, 'privacy page states the bounded third-test outcome');
-assert.match(pages['privacy.html'], /functional self-only proof only.*does not establish general or real Crous coverage/i, 'privacy page preserves the limits of the bounded proof');
+assert.match(pages['privacy.html'], /gmail\.readonly.*gmail\.send.*openid.*email.*userinfo\.email/is, 'privacy page states the exact five active scopes');
+assert.match(pages['privacy.html'], /Gmail read-only scope can technically view all messages, settings, and attachments in the account/i, 'privacy page describes account-wide read capability');
+assert.match(pages['privacy.html'], /Gmail send scope can technically send email as the account/i, 'privacy page describes account-wide technical send capability');
+assert.match(pages['privacy.html'], /does not include Gmail modify, compose, or full-mail scopes/i, 'privacy page excludes ungranted Gmail scopes');
+assert.match(pages['privacy.html'], /completed authorized uses are limited to separately task-authorized selected-message inspections, processing selected headers and relevant text through the external OpenAI Codex model provider for those limited tasks, the separate bounded detection-only trial that is now stopped, and the dated bounded self-only test described above/i, 'privacy page includes the bounded self-only test among completed authorized uses');
 assert.doesNotMatch(pages['privacy.html'], /No Gmail grant or token exists, and no mail has been fetched|There is no current grant or local token to revoke or remove/i, 'privacy page rejects obsolete inactive-access claims');
 assert.match(pages['privacy.html'], /general future AI use.*not finalized/i, 'privacy page preserves unresolved future AI handling');
-assert.match(pages['privacy.html'], /No ongoing sending, provider-side reply drafts, or unrestricted monitoring is authorized/i, 'privacy page preserves the no-send and no-provider-draft boundary');
-assert.match(pages['index.html'], /No ongoing sending, mailbox changes, provider-side reply drafts, or unrestricted monitoring is authorized/i, 'homepage preserves the unauthorized-action boundary');
+assert.match(pages['privacy.html'], /Gmail send capability is not blanket authority/i, 'privacy page distinguishes technical send capability from authority');
+assert.match(pages['privacy.html'], /Real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, and provider-side reply drafts remain unauthorized/i, 'privacy page preserves the production, third-party, and no-provider-draft boundary');
 assert.match(pages['index.html'], /Storage, retention, deletion, backups, logs, and token security have not been finalized/i, 'homepage preserves unresolved data-handling matters');
 assert.match(pages['privacy.html'], /stored, how long it would be retained, how deletion would work, or how backups and logs would be handled/i, 'privacy page preserves unresolved data-handling matters');
 assert.match(pages['privacy.html'], /does not settle token storage, unlock, security, or rotation details/i, 'privacy page preserves unresolved token security');
+assert.match(readme, /Historical attempt 1 stopped before account binding and\s+before any send; zero test messages and zero replies were sent/i, 'README preserves the first historical failure');
+assert.match(readme, /Historical\s+attempt 2 sent one synthetic seed, later reconciled as sent and inbox mail with\s+exact-self routing and selected-header predicates, and had zero replies/i, 'README preserves the reconciled second historical attempt');
+assert.match(readme, /On\s+October 1, 2026, one fresh bounded self-only functional test sent and inspected\s+three synthetic seeds/i, 'README states the bounded third test without private details');
+assert.match(readme, /Two self-only replies were accepted, each on its\s+corresponding seed thread; an automatic-response decoy received no reply/i, 'README states the bounded third-test outcome');
+assert.match(readme, /bounded\s+functional self-only proof only, not general or real Crous coverage/i, 'README preserves the limits of the bounded proof');
 for (const [page, html] of Object.entries(pages)) {
   assert.doesNotMatch(html, /Setup is not active/i, `${page} rejects the obsolete inactive-setup claim`);
   assert.doesNotMatch(html, /attachments were opened/i, `${page} makes no unsupported attachment claim`);
   assert.doesNotMatch(html, /may read and summarize|extract action items/i, `${page} makes no standing summarization claim`);
+  assert.doesNotMatch(html, /self-only synthetic test[^<]*has not started/i, `${page} rejects the obsolete self-only-test status`);
+  assert.doesNotMatch(html, /No email has been sent/i, `${page} makes no blanket current zero-send claim`);
 }
 
 console.log(`Static smoke checks passed for ${requiredPages.join(', ')}.`);
