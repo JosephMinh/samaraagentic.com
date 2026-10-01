@@ -33,8 +33,8 @@
         <ul class="plain-list">
           <li>One personal account has active Gmail read-only, Gmail send, and identity authorization, with a local token.</li>
           <li>Separately task-authorized selected-message inspections occurred; selected headers and relevant text were processed by the assistant’s external OpenAI Codex model provider for those limited tasks.</li>
-          <li>Historical attempt 1 stopped before identity binding with zero sends. Historical attempt 2 sent one synthetic seed, later reconciled as sent and inbox mail with exact-self routing and selected-header predicates, and had zero replies.</li>
-          <li>On October 1, 2026, one fresh bounded self-only functional test sent and inspected three synthetic seeds. Two self-only replies were accepted, each on its corresponding seed thread; an automatic-response decoy received no reply. The test ended at its reply cap with no active dispatch or retry.</li>
+          <li>Historical attempt 1 stopped before identity binding with zero sends. Historical attempt 2 sent one synthetic seed, later reconciled as carrying Gmail <code>SENT</code> and <code>INBOX</code> metadata labels with exact-self routing and selected-header predicates, and had zero replies.</li>
+          <li>On October 1, 2026, one fresh bounded self-only functional test sent and inspected three synthetic seeds. Two self-only replies were accepted; for each, the returned reply thread ID matched its corresponding seed thread ID. An automatic-response decoy received no reply. The test ended at its reply cap with no active dispatch or retry.</li>
         </ul>
       </section>
 

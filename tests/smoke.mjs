@@ -84,9 +84,9 @@ assert.match(pages['index.html'], /Gmail read-only scope can technically view al
 assert.match(pages['index.html'], /Gmail send scope can technically send email as the account/i, 'homepage describes account-wide technical send capability');
 assert.match(pages['index.html'], /does not include Gmail modify, compose, or full-mail scopes/i, 'homepage excludes ungranted Gmail scopes');
 assert.match(pages['index.html'], /Historical attempt 1 stopped before identity binding with zero sends/i, 'homepage preserves the first historical failure');
-assert.match(pages['index.html'], /Historical attempt 2 sent one synthetic seed.*sent and inbox mail.*exact-self routing and selected-header predicates.*zero replies/i, 'homepage preserves the reconciled second historical attempt');
+assert.match(pages['index.html'], /Historical attempt 2 sent one synthetic seed.*Gmail.*SENT.*INBOX.*metadata labels.*exact-self routing and selected-header predicates.*zero replies/i, 'homepage preserves the reconciled second historical attempt without implying delivery');
 assert.match(pages['index.html'], /one fresh bounded self-only functional test sent and inspected three synthetic seeds/i, 'homepage states the bounded third test without private details');
-assert.match(pages['index.html'], /Two self-only replies were accepted, each on its corresponding seed thread; an automatic-response decoy received no reply/i, 'homepage states the bounded third-test outcome');
+assert.match(pages['index.html'], /Two self-only replies were accepted; for each, the returned reply thread ID matched its corresponding seed thread ID\. An automatic-response decoy received no reply/i, 'homepage states the bounded third-test thread-ID comparison');
 assert.match(pages['index.html'], /dated self-only tests do not authorize real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, provider-side reply drafts, or unrestricted monitoring/i, 'homepage preserves the production and third-party sending boundary');
 assert.match(pages['index.html'], /No current monitoring is enabled/i, 'homepage states that monitoring is not active');
 assert.match(pages['index.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'homepage states the completed bounded trial without private details');
@@ -99,9 +99,9 @@ assert.match(pages['privacy.html'], /selected headers and relevant text.*externa
 assert.match(pages['privacy.html'], /bounded read-only synthetic-subject detection trial ran and is now stopped/i, 'privacy page states the completed bounded trial without private details');
 assert.match(pages['privacy.html'], /No current monitoring is enabled/i, 'privacy page states that monitoring is not active');
 assert.match(pages['privacy.html'], /Historical attempt 1 stopped before identity binding with zero sends/i, 'privacy page preserves the first historical failure');
-assert.match(pages['privacy.html'], /Historical attempt 2 sent one synthetic seed.*sent and inbox mail.*exact-self routing and selected-header predicates.*zero replies/i, 'privacy page preserves the reconciled second historical attempt');
+assert.match(pages['privacy.html'], /Historical attempt 2 sent one synthetic seed.*Gmail.*SENT.*INBOX.*metadata labels.*exact-self routing and selected-header predicates.*zero replies/i, 'privacy page preserves the reconciled second historical attempt without implying delivery');
 assert.match(pages['privacy.html'], /one fresh bounded self-only functional test sent and inspected three synthetic seeds/i, 'privacy page states the bounded third test without private details');
-assert.match(pages['privacy.html'], /Two self-only replies were accepted, each on its corresponding seed thread; an automatic-response decoy received no reply/i, 'privacy page states the bounded third-test outcome');
+assert.match(pages['privacy.html'], /Two self-only replies were accepted; for each, the returned reply thread ID matched its corresponding seed thread ID\. An automatic-response decoy received no reply/i, 'privacy page states the bounded third-test thread-ID comparison');
 assert.match(pages['privacy.html'], /gmail\.readonly.*gmail\.send.*openid.*email.*userinfo\.email/is, 'privacy page states the exact five active scopes');
 assert.match(pages['privacy.html'], /Gmail read-only scope can technically view all messages, settings, and attachments in the account/i, 'privacy page describes account-wide read capability');
 assert.match(pages['privacy.html'], /Gmail send scope can technically send email as the account/i, 'privacy page describes account-wide technical send capability');
@@ -115,9 +115,9 @@ assert.match(pages['index.html'], /Storage, retention, deletion, backups, logs, 
 assert.match(pages['privacy.html'], /stored, how long it would be retained, how deletion would work, or how backups and logs would be handled/i, 'privacy page preserves unresolved data-handling matters');
 assert.match(pages['privacy.html'], /does not settle token storage, unlock, security, or rotation details/i, 'privacy page preserves unresolved token security');
 assert.match(readme, /Historical attempt 1 stopped before account binding and\s+before any send; zero test messages and zero replies were sent/i, 'README preserves the first historical failure');
-assert.match(readme, /Historical\s+attempt 2 sent one synthetic seed, later reconciled as sent and inbox mail with\s+exact-self routing and selected-header predicates, and had zero replies/i, 'README preserves the reconciled second historical attempt');
-assert.match(readme, /On\s+October 1, 2026, one fresh bounded self-only functional test sent and inspected\s+three synthetic seeds/i, 'README states the bounded third test without private details');
-assert.match(readme, /Two self-only replies were accepted, each on its\s+corresponding seed thread; an automatic-response decoy received no reply/i, 'README states the bounded third-test outcome');
+assert.match(readme, /Historical\s+attempt 2 sent one synthetic seed, later reconciled as carrying Gmail SENT and\s+INBOX metadata labels with exact-self routing and selected-header predicates,\s+and had zero replies/i, 'README preserves the reconciled second historical attempt without implying delivery');
+assert.match(readme, /On\s+October 1, 2026, one fresh bounded self-only functional\s+test sent and inspected three synthetic seeds/i, 'README states the bounded third test without private details');
+assert.match(readme, /Two self-only replies were\s+accepted; for each, the returned reply thread ID matched its corresponding seed\s+thread ID\. An automatic-response decoy received no reply/i, 'README states the bounded third-test thread-ID comparison');
 assert.match(readme, /bounded\s+functional self-only proof only, not general or real Crous coverage/i, 'README preserves the limits of the bounded proof');
 for (const [page, html] of Object.entries(pages)) {
   assert.doesNotMatch(html, /Setup is not active/i, `${page} rejects the obsolete inactive-setup claim`);

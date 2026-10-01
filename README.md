@@ -5,12 +5,13 @@ with limited technical Gmail read and send capability. That capability does not
 authorize actual or production sends; sending remains limited to separately
 authorized tasks. Historical attempt 1 stopped before account binding and
 before any send; zero test messages and zero replies were sent. Historical
-attempt 2 sent one synthetic seed, later reconciled as sent and inbox mail with
-exact-self routing and selected-header predicates, and had zero replies. On
-October 1, 2026, one fresh bounded self-only functional test sent and inspected
-three synthetic seeds. Two self-only replies were accepted, each on its
-corresponding seed thread; an automatic-response decoy received no reply. The
-test ended at its reply cap with no active dispatch or retry. This is bounded
+attempt 2 sent one synthetic seed, later reconciled as carrying Gmail SENT and
+INBOX metadata labels with exact-self routing and selected-header predicates,
+and had zero replies. On October 1, 2026, one fresh bounded self-only functional
+test sent and inspected three synthetic seeds. Two self-only replies were
+accepted; for each, the returned reply thread ID matched its corresponding seed
+thread ID. An automatic-response decoy received no reply. The test ended at its
+reply cap with no active dispatch or retry. This is bounded
 functional self-only proof only, not general or real Crous coverage. Independent
 post-send inbox delivery for every new message, a complete MIME audit, an
 independently expected original thread, and guaranteed receive-to-reply latency
