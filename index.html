@@ -33,7 +33,8 @@
         <ul class="plain-list">
           <li>One personal account has active Gmail read-only, Gmail send, and identity authorization, with a local token.</li>
           <li>Separately task-authorized selected-message inspections occurred; selected headers and relevant text were processed by the assistant’s external OpenAI Codex model provider for those limited tasks.</li>
-          <li>A bounded read-only synthetic-subject detection trial ran and is now stopped.</li>
+          <li>Historical attempt 1 stopped before identity binding with zero sends. Historical attempt 2 sent one synthetic seed, later reconciled as carrying Gmail <code>SENT</code> and <code>INBOX</code> metadata labels with exact-self routing and selected-header predicates, and had zero replies.</li>
+          <li>On October 1, 2026, one fresh bounded self-only functional test sent and inspected three synthetic seeds. Two self-only replies were accepted; for each, the returned reply thread ID matched its corresponding seed thread ID. An automatic-response decoy received no reply. The test ended at its reply cap with no active dispatch or retry.</li>
         </ul>
       </section>
 
@@ -44,7 +45,7 @@
         </div>
         <p>The active Google permissions are exactly <code>https://www.googleapis.com/auth/gmail.readonly</code>, <code>https://www.googleapis.com/auth/gmail.send</code>, <code>openid</code>, <code>email</code>, and <code>https://www.googleapis.com/auth/userinfo.email</code>.</p>
         <p><strong>Important:</strong> the Gmail read-only scope can technically view all messages, settings, and attachments in the account. The Gmail send scope can technically send email as the account. These capabilities are not limited to a chosen sender or a selected subset of messages.</p>
-        <p>The stored authorization does not include Gmail modify, compose, or full-mail scopes. No current monitoring is enabled. Self-only testing was attempted. The first bounded self-only test stopped before account binding and before any send; zero test messages and zero replies were sent. In a second bounded self-only attempt, one synthetic self-addressed test message is visible in Gmail; that test then stopped. No automated replies or additional seed messages were sent. Inbox delivery, headers, route, labels, threading, classification, decoy outcome, and latency remain unverified. Real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, provider-side reply drafts, and unrestricted monitoring remain unauthorized. The bounded read-only synthetic-subject detection trial is stopped.</p>
+        <p>The stored authorization does not include Gmail modify, compose, or full-mail scopes. No current monitoring is enabled. The bounded read-only synthetic-subject detection trial ran and is now stopped. The dated self-only tests do not authorize real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, provider-side reply drafts, or unrestricted monitoring; any further monitoring, response, or send would require separate, explicit authorization and appropriate permissions.</p>
       </section>
 
       <section class="shell section" aria-labelledby="details-title">
@@ -52,7 +53,7 @@
           <p class="eyebrow">Unresolved details</p>
           <h2 id="details-title">Important details still need decisions.</h2>
         </div>
-        <p>Storage, retention, deletion, backups, logs, and token security have not been finalized. Apart from those separately task-authorized inspection tasks, general future AI use, provider handling, and which message excerpts could be shared remain unresolved. A public contact has not been supplied for this site.</p>
+        <p>The dated test is bounded functional self-only proof only. It does not establish general or real Crous coverage, independent post-send inbox delivery for every new message, a complete MIME audit, an independently expected original thread, or guaranteed receive-to-reply latency; the recorded local elapsed time is not Gmail latency. Storage, retention, deletion, backups, logs, and token security have not been finalized. Apart from those separately task-authorized inspection tasks, general future AI use, provider handling, and which message excerpts could be shared remain unresolved. A public contact has not been supplied for this site.</p>
         <a class="text-link" href="privacy.html">Read the privacy and access statement <span aria-hidden="true">→</span></a>
       </section>
     </main>

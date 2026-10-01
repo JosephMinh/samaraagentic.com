@@ -3,14 +3,20 @@
 A small, static information and privacy site for a one-person Gmail assistant
 with limited technical Gmail read and send capability. That capability does not
 authorize actual or production sends; sending remains limited to separately
-authorized tasks. Self-only testing was attempted. The first bounded self-only
-test stopped before account binding and before any send; zero test messages and
-zero replies were sent. In a second bounded self-only attempt, one synthetic
-self-addressed test message is visible in Gmail; that test then stopped. No
-automated replies or additional seed messages were sent. Inbox delivery,
-headers, route, labels, threading, classification, decoy outcome, and latency
-remain unverified. It has no build step, runtime dependencies, login, or OAuth
-flow.
+authorized tasks. Historical attempt 1 stopped before account binding and
+before any send; zero test messages and zero replies were sent. Historical
+attempt 2 sent one synthetic seed, later reconciled as carrying Gmail SENT and
+INBOX metadata labels with exact-self routing and selected-header predicates,
+and had zero replies. On October 1, 2026, one fresh bounded self-only functional
+test sent and inspected three synthetic seeds. Two self-only replies were
+accepted; for each, the returned reply thread ID matched its corresponding seed
+thread ID. An automatic-response decoy received no reply. The test ended at its
+reply cap with no active dispatch or retry. This is bounded
+functional self-only proof only, not general or real Crous coverage. Independent
+post-send inbox delivery for every new message, a complete MIME audit, an
+independently expected original thread, and guaranteed receive-to-reply latency
+remain unverified; recorded local elapsed time is not Gmail latency. It has no
+build step, runtime dependencies, login, or OAuth flow.
 
 ## Check and preview locally
 
