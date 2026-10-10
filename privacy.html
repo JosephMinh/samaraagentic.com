@@ -28,8 +28,8 @@
       <section aria-labelledby="current-status">
         <h2 id="current-status">Current status</h2>
         <p>One personal account has active Gmail read-only, Gmail send, and identity authorization, with a local token. Separately task-authorized selected-message inspections occurred, and selected headers and relevant text were processed by the assistant’s external OpenAI Codex model provider for those limited tasks.</p>
-        <p>The bounded read-only synthetic-subject detection trial ran and is now stopped. No current monitoring is enabled. Historical attempt 1 stopped before identity binding with zero sends. Historical attempt 2 sent one synthetic seed, later reconciled as carrying Gmail <code>SENT</code> and <code>INBOX</code> metadata labels with exact-self routing and selected-header predicates, and had zero replies.</p>
-        <p>On October 1, 2026, one fresh bounded self-only functional test sent and inspected three synthetic seeds. Two self-only replies were accepted; for each, the returned reply thread ID matched its corresponding seed thread ID. An automatic-response decoy received no reply. The test ended at its reply cap with no active dispatch or retry. This was not authorization for unrestricted monitoring.</p>
+        <p>A limited ongoing reply service is active only for qualifying mail sent by that same account. This is not general sending authority or authorization for unrestricted monitoring.</p>
+        <p>Earlier bounded self-only tests established finite self-only reply proof; earlier failures are historical and do not describe the current service. A separate bounded detection-only trial is stopped.</p>
       </section>
 
       <section aria-labelledby="proposed-permissions">
@@ -48,14 +48,14 @@
 
       <section aria-labelledby="purpose">
         <h2 id="purpose">Intended purpose</h2>
-        <p>The completed authorized uses are limited to separately task-authorized selected-message inspections, processing selected headers and relevant text through the external OpenAI Codex model provider for those limited tasks, the separate bounded detection-only trial that is now stopped, and the dated bounded self-only test described above. The Gmail send capability is not blanket authority. This is functional self-only proof only: it does not establish general or real Crous coverage, independent post-send inbox delivery for every new message, a complete MIME audit, an independently expected original thread, or guaranteed receive-to-reply latency. The recorded local elapsed time is not Gmail latency. Real-offer, Crous, third-party, or ongoing automatic sending, mailbox mutation, and provider-side reply drafts remain unauthorized.</p>
+        <p>Historical authorized uses include separately task-authorized selected-message inspections, processing selected headers and relevant text through the external OpenAI Codex model provider for those limited tasks, a separate bounded detection-only trial that is stopped, and bounded self-only tests that established finite self-only reply proof. Active authorization is limited to the ongoing self-only reply service for qualifying mail sent by that same account. The Gmail send capability is not blanket authority: sending to Crous or any third party, mailbox mutation, provider-side reply drafts, and unrestricted monitoring remain unauthorized. The service does not promise future delivery, coverage, response time, or quota availability.</p>
       </section>
 
       <section aria-labelledby="open-questions">
         <h2 id="open-questions">What has not been finalized</h2>
         <p>There is no settled public disclosure yet for where mail-related data would be stored, how long it would be retained, how deletion would work, or how backups and logs would be handled.</p>
-        <p>The existence of a local token does not settle token storage, unlock, security, or rotation details. Apart from those separately task-authorized inspection tasks, general future AI use, provider handling, data handling, log retention, and which message excerpts could be sent to a provider are not finalized.</p>
-        <p>Public contact information has not been supplied for publication. These unresolved items need owner and provider review before any further mailbox use.</p>
+        <p>The existence of a local token does not settle token storage, unlock, security, or rotation details. Apart from those limited historical uses, general future AI use, provider handling, data handling, log retention, and which message excerpts could be sent to a provider are not finalized.</p>
+        <p>Public contact information has not been supplied for publication. These unresolved items need owner and provider review before any expansion of mailbox use.</p>
       </section>
 
       <section aria-labelledby="revocation">
