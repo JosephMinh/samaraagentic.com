@@ -4,6 +4,10 @@ A small, static information and privacy site for a one-person Gmail assistant
 with limited technical Gmail read and send capability. The authorized send use
 is limited to an ongoing self-only reply service for qualifying mail sent by
 that same account; it is not general, Crous, or third-party sending authority.
+Separately task-authorized selected-message inspections and external processing
+of selected headers and relevant text are historical, limited tasks. Earlier
+bounded self-only tests established finite self-only reply proof; a separate
+bounded detection-only trial is stopped.
 The service does not promise future delivery, coverage, response time, or quota
 availability. It has no build step, runtime dependencies, login, or OAuth flow.
 
